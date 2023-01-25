@@ -28,7 +28,7 @@ function Issues() {
     },
     {
       enabled: !!savedRepos.length,
-      keepPreviousData: true,
+      keepPreviousData: !!savedRepos.length,
     },
   );
 
