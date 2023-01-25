@@ -4,10 +4,19 @@ import { useSavedRepositoryStore } from "@lib/store/savedRepository";
 import { searchIssuesWithRepos } from "@lib/github/issue";
 import IssueListItem from "./IssueListItem";
 import { ISSUES_PER_PAGE } from "@lib/config/constants";
-import { Box, Button, ButtonGroup, Flash, Heading, Text } from "@primer/react";
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Flash,
+  Heading,
+  Text,
+  Token,
+} from "@primer/react";
 
 function Issues() {
   const savedRepos = useSavedRepositoryStore((s) => s.items);
+  const removeRepo = useSavedRepositoryStore((s) => s.remove);
   const [page, setPage] = useState(1);
   const { data, error } = useQuery(
     ["search", "issues", savedRepos, page],
@@ -32,6 +41,11 @@ function Issues() {
     <section>
       <>
         <Heading sx={{ mb: 2, fontSize: 4 }}>Issues</Heading>
+        <Box display="flex" flexWrap="wrap" alignItems="center" sx={{ gap: 2 }}>
+          {savedRepos.map((repo) => (
+            <Token text={repo} onRemove={() => removeRepo(repo)} key={repo} />
+          ))}
+        </Box>
         {error && <Flash variant="danger">Couldn't fetch issues</Flash>}
         {data && (
           <Box
