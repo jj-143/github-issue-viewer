@@ -1,4 +1,5 @@
 import { searchRepositories } from "@lib/github/repository";
+import { Box, Heading } from "@primer/react";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import SearchForm from "./components/SearchForm";
@@ -14,14 +15,21 @@ function SearchRepositories() {
   );
 
   return (
-    <div>
+    <section>
+      <Heading sx={{ mb: 2, fontSize: 4 }}>Search Repositories</Heading>
       <SearchForm update={(q) => setQuery(q.text)} />
-      <ol>
+      <Box
+        as="ol"
+        borderColor="border.default"
+        borderStyle="solid"
+        borderWidth="1"
+        display={data ? "block" : "none"}
+      >
         {data?.items.map((item) => (
           <RepositoryListItem repository={item} key={item.full_name} />
         ))}
-      </ol>
-    </div>
+      </Box>
+    </section>
   );
 }
 export default SearchRepositories;

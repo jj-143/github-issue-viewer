@@ -1,4 +1,5 @@
 import { useSavedRepositoryStore } from "@lib/store/savedRepository";
+import { Box, Button, TextInput } from "@primer/react";
 import { FormEvent, useState } from "react";
 
 type Props = {
@@ -18,13 +19,20 @@ function SearchForm(props: Props) {
 
   return (
     <form onSubmit={onSubmit}>
-      <input
-        type="text"
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        data-cy="search-form-input"
-      />
-      <button>search</button>
+      <Box display={"flex"}>
+        <TextInput
+          placeholder="Keyword to search repositories"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          data-cy="search-form-input"
+          aria-label="Keyword"
+          width={"100%"}
+        />
+
+        <Box ml={"2"}>
+          <Button>search</Button>
+        </Box>
+      </Box>
     </form>
   );
 }

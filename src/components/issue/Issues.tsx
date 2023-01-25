@@ -4,6 +4,7 @@ import { useSavedRepositoryStore } from "@lib/store/savedRepository";
 import { searchIssuesWithRepos } from "@lib/github/issue";
 import IssueListItem from "./IssueListItem";
 import { ISSUES_PER_PAGE } from "@lib/config/constants";
+import { Box, Button, ButtonGroup, Heading, Text } from "@primer/react";
 
 function Issues() {
   const savedRepos = useSavedRepositoryStore((s) => s.items);
@@ -29,24 +30,39 @@ function Issues() {
 
   return (
     <section>
-      <h2>Issues</h2>
+      <Heading sx={{ mb: 2, fontSize: 4 }}>Issues</Heading>
+
       {data && (
-        <div>
-          <button onClick={() => setPage(page - 1)} disabled={!hasPrevPage}>
-            {"prev"}
-          </button>{" "}
-          {page} / {totalPage}{" "}
-          <button onClick={() => setPage(page + 1)} disabled={!hasNextPage}>
-            {"next"}
-          </button>
-        </div>
+        <Box
+          as="ol"
+          start={start}
+          borderColor="border.default"
+          borderWidth="1"
+          borderStyle="solid"
+        >
+          {data?.items.map((item) => (
+            <IssueListItem issue={item} key={item.id} />
+          ))}
+        </Box>
       )}
-      <ol start={start}>
-        {data?.items.map((item) => (
-          <IssueListItem issue={item} key={item.id} />
-        ))}
-        {!savedRepos.length && <strong>Save repository to see issues</strong>}
-      </ol>
+      {!savedRepos.length && <strong>Save repository to see issues</strong>}
+
+      <Box
+        display={data ? "flex" : "none"}
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Button onClick={() => setPage(page - 1)} disabled={!hasPrevPage}>
+          {"prev"}
+        </Button>
+
+        <Text p={2}>
+          {page} / {totalPage}
+        </Text>
+        <Button onClick={() => setPage(page + 1)} disabled={!hasNextPage}>
+          {"next"}
+        </Button>
+      </Box>
     </section>
   );
 }

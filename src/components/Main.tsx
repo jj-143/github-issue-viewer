@@ -1,16 +1,17 @@
 import SearchRepositories from "./repository/SearchRepositories";
 import Issues from "./issue/Issues";
+import { Box } from "@primer/react";
 
 function Main() {
   return (
-    <main style={{ display: "flex" }}>
-      <div style={{ width: "500px" }}>
+    <Box as="main" display="flex">
+      <Box p={8} width={"600px"}>
         <SearchRepositories />
-      </div>
-      <div style={{ flex: 1 }}>
+      </Box>
+      <Box p={8} sx={{ flex: 1 }}>
         <Issues />
-      </div>
-    </main>
+      </Box>
+    </Box>
   );
 }
 export default Main;
