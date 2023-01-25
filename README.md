@@ -8,4 +8,4 @@
 
 ## Run Development Server
 
-`npm run dev` 이후 선택된 주소 (기본: http://localhost:5173)로 접속합니다.
+`npm run dev` 이후 선택된 주소 (기본: [http://localhost:5173](http://localhost:5173))로 접속합니다.
