@@ -1,6 +1,6 @@
 import toSearchString from "@lib/toSearchString";
 
-export function searchIssuesWithRepos(
+export async function searchIssuesWithRepos(
   fullNames: Repository["full_name"][],
   params?: { page?: number; per_page?: number },
 ): Promise<SearchResponse<Issue>> {
@@ -13,7 +13,14 @@ export function searchIssuesWithRepos(
     ...params,
   });
 
-  return fetch(`https://api.github.com/search/issues?${search}`, {
-    mode: "cors",
-  }).then((res) => res.json());
+  const response = await fetch(
+    `https://api.github.com/search/issues?${search}`,
+    {
+      mode: "cors",
+    },
+  );
+
+  if (!response.ok) throw await response.json();
+
+  return response.json();
 }

@@ -4,12 +4,12 @@ import { useSavedRepositoryStore } from "@lib/store/savedRepository";
 import { searchIssuesWithRepos } from "@lib/github/issue";
 import IssueListItem from "./IssueListItem";
 import { ISSUES_PER_PAGE } from "@lib/config/constants";
-import { Box, Button, ButtonGroup, Heading, Text } from "@primer/react";
+import { Box, Button, ButtonGroup, Flash, Heading, Text } from "@primer/react";
 
 function Issues() {
   const savedRepos = useSavedRepositoryStore((s) => s.items);
   const [page, setPage] = useState(1);
-  const { data } = useQuery(
+  const { data, error } = useQuery(
     ["search", "issues", savedRepos, page],
     () => {
       return searchIssuesWithRepos(savedRepos, {
@@ -30,39 +30,41 @@ function Issues() {
 
   return (
     <section>
-      <Heading sx={{ mb: 2, fontSize: 4 }}>Issues</Heading>
+      <>
+        <Heading sx={{ mb: 2, fontSize: 4 }}>Issues</Heading>
+        {error && <Flash variant="danger">Couldn't fetch issues</Flash>}
+        {data && (
+          <Box
+            as="ol"
+            start={start}
+            borderColor="border.default"
+            borderWidth="1"
+            borderStyle="solid"
+          >
+            {data?.items.map((item) => (
+              <IssueListItem issue={item} key={item.id} />
+            ))}
+          </Box>
+        )}
+        {!savedRepos.length && <strong>Save repository to see issues</strong>}
 
-      {data && (
         <Box
-          as="ol"
-          start={start}
-          borderColor="border.default"
-          borderWidth="1"
-          borderStyle="solid"
+          display={data ? "flex" : "none"}
+          alignItems="center"
+          justifyContent="center"
         >
-          {data?.items.map((item) => (
-            <IssueListItem issue={item} key={item.id} />
-          ))}
+          <Button onClick={() => setPage(page - 1)} disabled={!hasPrevPage}>
+            {"prev"}
+          </Button>
+
+          <Text p={2}>
+            {page} / {totalPage}
+          </Text>
+          <Button onClick={() => setPage(page + 1)} disabled={!hasNextPage}>
+            {"next"}
+          </Button>
         </Box>
-      )}
-      {!savedRepos.length && <strong>Save repository to see issues</strong>}
-
-      <Box
-        display={data ? "flex" : "none"}
-        alignItems="center"
-        justifyContent="center"
-      >
-        <Button onClick={() => setPage(page - 1)} disabled={!hasPrevPage}>
-          {"prev"}
-        </Button>
-
-        <Text p={2}>
-          {page} / {totalPage}
-        </Text>
-        <Button onClick={() => setPage(page + 1)} disabled={!hasNextPage}>
-          {"next"}
-        </Button>
-      </Box>
+      </>
     </section>
   );
 }
