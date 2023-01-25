@@ -1,8 +1,7 @@
-import { USE_MOCK_SERVER } from "@lib/config/constants";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import "./index.css";
+import { USE_MOCK_SERVER } from "@lib/config/constants";
 
 async function prepare() {
   if (USE_MOCK_SERVER) {
