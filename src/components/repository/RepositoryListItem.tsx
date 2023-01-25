@@ -19,7 +19,7 @@ function RepositoryListItem(props: Props) {
 
   return (
     <li data-cy="repository-list-item">
-      <header>{repository.full_name}</header>
+      <header data-cy="repository-full-name">{repository.full_name}</header>
       <p>{repository.description}</p>
       {isSaved ? (
         <button
