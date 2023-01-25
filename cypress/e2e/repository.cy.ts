@@ -70,3 +70,32 @@ describe(
     });
   },
 );
+
+describe.only("persist", () => {
+  beforeEach(() => {
+    cy.visit("/");
+    cy.getByCy("search-form-input").type("tetris{enter}");
+  });
+
+  it("should persist saved repository", () => {
+    cy.getByCy("repository-list-item")
+      .first()
+      .getByCy("save")
+      .should("exist")
+      .click();
+
+    cy.getByCy("repository-list-item")
+      .first()
+      .getByCy("repository-full-name")
+      .invoke("text")
+      .then((repoName) => {
+        cy.visit("/");
+        cy.getByCy("search-form-input").type("tetris{enter}");
+
+        cy.getByCy("repository-list-item")
+          .contains(repoName)
+          .getByCy("save")
+          .should("not.exist");
+      });
+  });
+});
