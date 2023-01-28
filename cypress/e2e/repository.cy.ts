@@ -1,6 +1,6 @@
 describe("search repositories", () => {
   it("should render search form", () => {
-    cy.visit("localhost:5173");
+    cy.visit("/");
     cy.getByCy("search-form-input");
   });
 
@@ -71,7 +71,7 @@ describe(
   },
 );
 
-describe.only("persist", () => {
+describe("persist", () => {
   beforeEach(() => {
     cy.visit("/");
     cy.getByCy("search-form-input").type("tetris{enter}");
