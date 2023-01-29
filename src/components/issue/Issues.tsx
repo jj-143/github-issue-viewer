@@ -4,15 +4,7 @@ import { useSavedRepositoryStore } from "@lib/store/savedRepository";
 import { searchIssuesWithRepos } from "@lib/github/issue";
 import IssueListItem from "./IssueListItem";
 import { ISSUES_PER_PAGE } from "@lib/config/constants";
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  Flash,
-  Heading,
-  Text,
-  Token,
-} from "@primer/react";
+import { Box, Button, Flash, Heading, Text, Token } from "@primer/react";
 
 function Issues() {
   const savedRepos = useSavedRepositoryStore((s) => s.items);
@@ -46,7 +38,7 @@ function Issues() {
             <Token text={repo} onRemove={() => removeRepo(repo)} key={repo} />
           ))}
         </Box>
-        {error && <Flash variant="danger">Couldn't fetch issues</Flash>}
+        {error && <Flash variant="danger">Couldn{"'"}t fetch issues</Flash>}
         {data && (
           <Box
             as="ol"

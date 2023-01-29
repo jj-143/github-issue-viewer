@@ -8,6 +8,6 @@ export default function getRepositoryName(
   repositoryUrl: Issue["repository_url"],
 ): string {
   return (
-    repositoryUrl.match(/api\.github\.com\/repos\/([^\/]+\/[^\/]+)/)?.[1] ?? ""
+    repositoryUrl.match(/api\.github\.com\/repos\/([^/]+\/[^/]+)/)?.[1] ?? ""
   );
 }
