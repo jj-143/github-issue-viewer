@@ -1,16 +1,10 @@
-export async function searchRepositories(
+import { get } from "@lib/core/http";
+
+export function searchRepositories(
   query: string,
-): Promise<SearchResponse<Repository>> {
+): Promise<GitHubSearchResponse<Repository>> {
   const q = encodeURIComponent(query);
-
-  const response = await fetch(
-    `https://api.github.com/search/repositories?q=${q}`,
-    {
-      mode: "cors",
-    },
-  );
-
-  if (!response.ok) throw await response.json();
-
-  return response.json();
+  return get(`https://api.github.com/search/repositories?q=${q}`, {
+    mode: "cors",
+  });
 }

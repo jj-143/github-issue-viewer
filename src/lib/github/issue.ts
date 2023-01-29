@@ -1,9 +1,10 @@
 import toSearchString from "@lib/toSearchString";
+import { get } from "@lib/core/http";
 
-export async function searchIssuesWithRepos(
+export function searchIssuesWithRepos(
   fullNames: Repository["full_name"][],
   params?: { page?: number; per_page?: number },
-): Promise<SearchResponse<Issue>> {
+): Promise<GitHubSearchResponse<Issue>> {
   const defaultQuery = ["type:issue", "is:open"];
   const repos = fullNames.map((fullName) => `repo:${fullName}`);
 
@@ -12,15 +13,7 @@ export async function searchIssuesWithRepos(
     q,
     ...params,
   });
-
-  const response = await fetch(
-    `https://api.github.com/search/issues?${search}`,
-    {
-      mode: "cors",
-    },
-  );
-
-  if (!response.ok) throw await response.json();
-
-  return response.json();
+  return get(`https://api.github.com/search/issues?${search}`, {
+    mode: "cors",
+  });
 }
