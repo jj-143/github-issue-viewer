@@ -10,3 +10,18 @@ type SavedRepositoryAction = {
 };
 
 type SavedRepositoryStoreAPI = SavedRepositoryState & SavedRepositoryAction;
+
+type AppFlash = {
+  message: string;
+  severity?: "success" | "danger" | "default" | "warning";
+};
+
+type AppState = {
+  flash?: AppFlash;
+};
+
+type AppAction = {
+  setFlash: (flash?: AppFlash) => void;
+};
+
+type AppStoreAPI = AppState & AppAction;

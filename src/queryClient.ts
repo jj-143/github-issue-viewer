@@ -1,5 +1,6 @@
 import { Query, QueryCache, QueryClient } from "@tanstack/react-query";
 import { HTTPError } from "@lib/core/error";
+import { useAppStore } from "@lib/store/app";
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,6 +25,9 @@ function handleGitHubError(error: Error) {
   if (!(error instanceof HTTPError)) return;
   const { status, data } = error as HTTPError<GitHubErrorResponse>;
   if (status === 403) {
-    // handle 403
+    useAppStore.getState().setFlash({
+      message: data.message ?? "",
+      severity: "danger",
+    });
   }
 }
