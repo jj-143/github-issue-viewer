@@ -11,7 +11,7 @@ function Issues() {
   const removeRepo = useSavedRepositoryStore((s) => s.remove);
   const [page, setPage] = useState(1);
   const { data, error } = useQuery(
-    ["search", "issues", savedRepos, page],
+    ["github", "search", "issues", savedRepos, page],
     () => {
       return searchIssuesWithRepos(savedRepos, {
         page,

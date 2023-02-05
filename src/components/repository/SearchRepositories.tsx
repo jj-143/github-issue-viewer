@@ -9,7 +9,7 @@ function SearchRepositories() {
   const [query, setQuery] = useState("");
 
   const { data } = useQuery(
-    ["search", "repository", query],
+    ["github", "search", "repository", query],
     () => searchRepositories(query),
     { enabled: !!query },
   );
