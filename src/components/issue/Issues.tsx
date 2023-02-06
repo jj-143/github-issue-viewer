@@ -39,37 +39,51 @@ function Issues() {
           ))}
         </Box>
         {error && <Flash variant="danger">Couldn{"'"}t fetch issues</Flash>}
-        {data && (
-          <Box
-            as="ol"
-            start={start}
-            borderColor="border.default"
-            borderWidth="1"
-            borderStyle="solid"
-          >
-            {data?.items.map((item) => (
-              <IssueListItem issue={item} key={item.id} />
-            ))}
-          </Box>
-        )}
         {!savedRepos.length && <strong>Save repository to see issues</strong>}
+        {data ? (
+          data.items.length ? (
+            <>
+              <Box
+                as="ol"
+                start={start}
+                borderColor="border.default"
+                borderWidth="1"
+                borderStyle="solid"
+              >
+                {data?.items.map((item) => (
+                  <IssueListItem issue={item} key={item.id} />
+                ))}
+              </Box>
 
-        <Box
-          display={data ? "flex" : "none"}
-          alignItems="center"
-          justifyContent="center"
-        >
-          <Button onClick={() => setPage(page - 1)} disabled={!hasPrevPage}>
-            {"prev"}
-          </Button>
+              <Box
+                display={data ? "flex" : "none"}
+                alignItems="center"
+                justifyContent="center"
+              >
+                <Button
+                  onClick={() => setPage(page - 1)}
+                  disabled={!hasPrevPage}
+                >
+                  {"prev"}
+                </Button>
 
-          <Text p={2}>
-            {page} / {totalPage}
-          </Text>
-          <Button onClick={() => setPage(page + 1)} disabled={!hasNextPage}>
-            {"next"}
-          </Button>
-        </Box>
+                <Text p={2}>
+                  {page} / {totalPage}
+                </Text>
+                <Button
+                  onClick={() => setPage(page + 1)}
+                  disabled={!hasNextPage}
+                >
+                  {"next"}
+                </Button>
+              </Box>
+            </>
+          ) : (
+            <Box mt={2}>
+              <Text>{"There aren't any open issues."}</Text>
+            </Box>
+          )
+        ) : null}
       </>
     </section>
   );
