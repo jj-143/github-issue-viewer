@@ -1,5 +1,5 @@
 import { searchRepositories } from "@lib/github/repository";
-import { Box, Heading, Text } from "@primer/react";
+import { Box, Heading, Text, Token } from "@primer/react";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import SearchForm from "./components/SearchForm";
@@ -8,7 +8,7 @@ import RepositoryListItem from "./RepositoryListItem";
 function SearchRepositories() {
   const [query, setQuery] = useState("");
 
-  const { data } = useQuery(
+  const { data, isFetching } = useQuery(
     ["github", "search", "repository", query],
     () => searchRepositories(query),
     { enabled: !!query },
@@ -17,7 +17,7 @@ function SearchRepositories() {
   return (
     <section>
       <Heading sx={{ mb: 2, fontSize: 4 }}>Search Repositories</Heading>
-      <SearchForm update={(q) => setQuery(q.text)} />
+      <SearchForm isFetching={isFetching} update={(q) => setQuery(q.text)} />
       {data ? (
         data.items.length ? (
           <Box

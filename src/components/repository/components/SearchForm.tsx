@@ -2,6 +2,7 @@ import { Box, Button, TextInput } from "@primer/react";
 import { FormEvent, useState } from "react";
 
 type Props = {
+  isFetching: boolean;
   update: (query: SearchQuery) => void;
 };
 
@@ -27,9 +28,8 @@ function SearchForm(props: Props) {
           aria-label="Keyword"
           width={"100%"}
         />
-
         <Box ml={"2"}>
-          <Button>search</Button>
+          <Button disabled={!text || props.isFetching}>search</Button>
         </Box>
       </Box>
     </form>
